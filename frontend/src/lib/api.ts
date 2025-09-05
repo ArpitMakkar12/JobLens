@@ -2,10 +2,7 @@ import axios from 'axios';
 
 // Add this debug line right here
 // Add this line to check the variable
-console.log("BACKEND URL IS:", import.meta.env.VITE_API_URL);
-
-const BASE_URL = import.meta.env.VITE_API_URL;
-const API_URL = `${BASE_URL}/analyze`;
+const API_URL = 'https://joblens-1.onrender.com/analyze';
 
 // Define the shape of the data your API will return
 export interface AnalysisResult {
