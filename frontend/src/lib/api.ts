@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://127.0.0.1:5000/analyze';
+const API_URL = 'https://skill-sync-backend.onrender.com/analyze'; // ⬅️ Your URL from Render
 
 // Define the shape of the data your API will return
 export interface AnalysisResult {
