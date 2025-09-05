@@ -1,38 +1,39 @@
 import axios from 'axios';
 
-// Add this debug line right here
-// Add this line to check the variable
-const API_URL = 'https://joblens-1.onrender.com/analyze';
+// Get the base URL from the environment variables set on Render/Vercel
+const BASE_URL = import.meta.env.VITE_API_URL;
 
-// Define the shape of the data your API will return
+// Define the shape of the API response
 export interface AnalysisResult {
   match_score: number;
   missing_skills: string[];
   highlighted_skills: string[];
   tailored_resume: string;
   cover_letter: string;
-  suggestions: string;
+  suggestions: string[]; // ✅ Correctly defined as an array
 }
 
-/**
- * Analyzes the resume and job description by sending them to the backend.
- * @param resumeFile - The user's resume file.
- * @param jdFile - The job description file.
- * @returns A promise that resolves to the analysis results.
- */
-export const analyzeDocuments = async (resumeFile: File, jdFile: File): Promise<AnalysisResult> => {
+export const analyzeDocuments = async (
+  resumeFile: File,
+  jdFile: File
+): Promise<AnalysisResult> => {
+  // This check provides a clear error if the environment variable is missing
+  if (!BASE_URL) {
+    throw new Error(
+      'VITE_API_URL is not defined. Check your deployment environment variables.'
+    );
+  }
+
+  const API_URL = `${BASE_URL}/analyze`;
   const formData = new FormData();
   formData.append('resume', resumeFile);
   formData.append('job_description', jdFile);
 
-  try {
-    const response = await axios.post<AnalysisResult>(API_URL, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error during API call:", error);
-    // Re-throw the error so the component can handle it
-    throw new Error('Failed to get analysis from the server.');
-  }
+  const response = await axios.post<AnalysisResult>(API_URL, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+  return response.data;
 };

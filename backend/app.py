@@ -15,7 +15,7 @@ import csv # --- CHANGE: Replaced pandas with the built-in csv module
 import yake # --- CHANGE: Replaced KeyBERT with yake
 
 app = Flask(__name__)
-frontend_url = "https://joblens-0f3r.onrender.com" # ⬅️ Your new frontend URL
+frontend_url = "https://joblens-0f3r.onrender.com"
 CORS(app, origins=[frontend_url])
 nlp = spacy.load("en_core_web_sm")
 # --- CHANGE: Removed kw_model = KeyBERT() ---
